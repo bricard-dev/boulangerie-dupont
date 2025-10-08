@@ -49,6 +49,14 @@ export async function GET(request: Request) {
         now: Date.now(),
       })
     }
+
+    // Fallback (ne devrait jamais arriver grâce à la validation ci-dessus)
+    return NextResponse.json(
+      {
+        error: 'Veuillez fournir soit un "tag" soit un "path"',
+      },
+      {status: 400},
+    )
   } catch (err) {
     return NextResponse.json(
       {

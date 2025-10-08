@@ -41,6 +41,7 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
     params,
     // Metadata should never contain stega
     stega: false,
+    tags: ['post', 'author', 'category'],
   })
   const previousImages = (await parent).openGraph?.images || []
   const ogImage = resolveOpenGraphImage(post?.coverImage)
@@ -60,7 +61,9 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
 
 export default async function PostPage(props: Props) {
   const params = await props.params
-  const [{data: post}] = await Promise.all([sanityFetch({query: postQuery, params})])
+  const [{data: post}] = await Promise.all([
+    sanityFetch({query: postQuery, params, tags: ['post', 'author', 'category']}),
+  ])
 
   if (!post?._id) {
     return notFound()
